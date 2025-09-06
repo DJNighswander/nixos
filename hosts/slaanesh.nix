@@ -169,6 +169,8 @@ in
   # Enable developer docs
   documentation.dev.enable = true;
 
+  services.pcscd.enable = true;
+
   # Enable the X11 windowing system/Display Manager
   services.xserver = {
     enable = true;
@@ -176,6 +178,15 @@ in
   };
 
   programs.hyprland.enable = true;
+
+  programs.ssh = {
+    startAgent = true;
+    extraConfig = ''
+      PKCS11Provider ${
+        pkgs.opensc
+      }/lib/pkcs11/opensc-pkcs11.so
+    '';
+  };
 
   programs.steam = {
     enable = true;
@@ -291,6 +302,7 @@ in
     neovim
     nnn
     obsidian
+    opensc
     python3
     pavucontrol
     qutebrowser
@@ -310,6 +322,7 @@ in
     #xdotool
     xwayland
     ytmdesktop
+    yubikey-manager
     #ydotool
 
     #(callPackage ../derivations/cataclysm-dda.nix {})
