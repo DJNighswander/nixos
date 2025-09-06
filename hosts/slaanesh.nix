@@ -179,14 +179,14 @@ in
 
   programs.hyprland.enable = true;
 
-  programs.ssh = {
-    startAgent = true;
-    extraConfig = ''
-      PKCS11Provider ${
-        pkgs.opensc
-      }/lib/pkcs11/opensc-pkcs11.so
-    '';
-  };
+  #programs.ssh = {
+  #  startAgent = true;
+  #  extraConfig = ''
+  #    PKCS11Provider ${
+  #      pkgs.opensc
+  #    }/lib/pkcs11/opensc-pkcs11.so
+  #  '';
+  #};
 
   programs.steam = {
     enable = true;
