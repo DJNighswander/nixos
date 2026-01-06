@@ -10,7 +10,8 @@ in
 {
   nix.settings = {
     experimental-features = [ "nix-command" "flakes" ];
-    trusted-users = [ "${username}" ];
+    allowed-users = [ "root" "@wheel" "${username}" ];
+    trusted-users = [ "root" "@wheel" "${username}" ];
   };
 
   #nix.buildMachines = [
@@ -119,12 +120,6 @@ in
   #  '';
   #};
 
-  programs.steam = {
-    enable = true;
-    #remotePlay.openFirewall = true;
-    #localNetworkGameTransfers.openFirewall = true;
-  };
-
   # Configure keymap in X11
   services.xserver.xkb = {
     layout = "us";
@@ -148,7 +143,7 @@ in
 
   hardware.graphics = {
     enable = true;
-    enable32bit = true;
+    enable32Bit = true;
   };
 
   # ACPI daemon
@@ -223,8 +218,6 @@ in
 
   #nix.settings.allowed-users = [ "root" "@wheel" "nix-builder" "djnighs" ];
   #nix.settings.trusted-users = [ "root" "@wheel" "nix-builder" "djnighs" ];
-  nix.settings.allowed-users = [ "root" "@wheel" "djnighs" ];
-  nix.settings.trusted-users = [ "root" "@wheel" "djnighs" ];
 
   programs.firefox.enable = true;
 

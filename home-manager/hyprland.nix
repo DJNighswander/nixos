@@ -32,6 +32,7 @@ in {
       env = HYPRCURSOR_SIZE,16
 
       monitor = eDP-1 , 2160x1440@40 , 0x0, 1.5
+      #monitor = 
       monitor = , 2560x1600@40 , auto-left , 1
 
       workspace = 1, monitor:HDMI-A-1,eDP-1
