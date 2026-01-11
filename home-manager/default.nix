@@ -6,8 +6,8 @@
     ./firefox.nix
     ./hypridle.nix
     ./hyprland.nix
-    ./hyprlock.nix
-    ./hyprpaper.nix
+    #./hyprlock.nix
+    #./hyprpaper.nix
     ./rclone.nix
     ./scripts.nix
     ./swaylock.nix
