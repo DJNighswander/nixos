@@ -219,7 +219,7 @@ in
   #nix.settings.allowed-users = [ "root" "@wheel" "nix-builder" "djnighs" ];
   #nix.settings.trusted-users = [ "root" "@wheel" "nix-builder" "djnighs" ];
 
-  programs.firefox.enable = true;
+  #programs.firefox.enable = true;
 
   nixpkgs.config.allowUnfree = true;
   nixpkgs.config.allowUnsupportedSystem = true;
@@ -249,10 +249,13 @@ in
     #cronie
     dconf
     distcc
-    firefox
+    #firefox
     jmtpfs
     git
     gnupg
+    hypridle
+    hyprlock
+    hyprpaper
     jq
     libinput
     kitty

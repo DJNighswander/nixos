@@ -4,7 +4,10 @@
     ./alacritty.nix
     ./bash.nix
     ./firefox.nix
+    ./hypridle.nix
     ./hyprland.nix
+    ./hyprlock.nix
+    ./hyprpaper.nix
     ./rclone.nix
     ./scripts.nix
     ./swaylock.nix

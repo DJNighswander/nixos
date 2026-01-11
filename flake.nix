@@ -38,7 +38,7 @@
 	    home-manager.useUserPackages = true;
 	    home-manager.users.djnighs = import ./home-manager/default.nix;
 	    home-manager.extraSpecialArgs = {inherit inputs;};
-	    home-manager.backupFileExtension  = "hm-backup";
+	    home-manager.backupFileExtension  = "backup";
 	  }
 	];
 	specialArgs = {inherit inputs;};
