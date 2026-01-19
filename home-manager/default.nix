@@ -8,6 +8,7 @@
     ./hyprland.nix
     #./hyprlock.nix
     #./hyprpaper.nix
+    ./neovim.nix
     ./rclone.nix
     ./scripts.nix
     ./swaylock.nix

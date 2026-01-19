@@ -27,7 +27,7 @@
           on-resume = "hyprctl dispatch dpms on && brightnessctl -r";
         }{
           timeout = 1800;	# 30 minutes
-          on-timout = "systemctl suspend";
+
 	}
       ];
     };

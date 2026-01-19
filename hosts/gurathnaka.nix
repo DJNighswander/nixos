@@ -38,6 +38,8 @@ in
 
   # Disable tpm2 to stop 1m30s timout on tpm device search on boot
   systemd.tpm2.enable = false;
+  
+  environment.variables.EDITOR = "nvim";
 
   #environment.variables = {
   #  DISTCC_HOSTS = "192.168.0.154";
@@ -240,15 +242,20 @@ in
     alacritty
     android-tools
     bitwarden
+    brightnessctl
     btop
     caffeine-ng
     calibre
     cataclysm-dda-git
     cliphist
+    cryptsetup
+    curl
     #cargo2nix
     #cronie
     dconf
     distcc
+    fd
+    fzf
     #firefox
     jmtpfs
     git
@@ -258,10 +265,12 @@ in
     hyprpaper
     jq
     libinput
+    lazygit
     kitty
     maliit-keyboard
     neovim
     nnn
+    nodejs
     obsidian
     opensc
     paperkey
@@ -269,8 +278,10 @@ in
     pinentry-curses
     python3
     qutebrowser
+    ripgrep
     starsector
     swayidle
+    tree-sitter
     tmux
     tmuxinator
     unzip
