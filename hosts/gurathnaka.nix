@@ -2,10 +2,11 @@
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 
-{ config, lib, pkgs, ... }:
+{ config, inputs, lib, pkgs, ... }:
 
 let
   username = "djnighs";
+  vieb-pkg = (inputs.vieb-nix.packagesFunc pkgs).vieb;
 in
 {
   nix.settings = {
@@ -132,14 +133,14 @@ in
   services.printing.enable = true;
 
   # logind events
-  services.logind.extraConfig = ''
-    HandlePowerKey=hibernate
-    HandleSuspendKey=ignore
-    HandleHibernateKey=ignore
-    HandleLidSwitch=ignore
-    HandleLidSwitchDocked=ignore
-    HandleLidSwitchExternalPower=ignore
-  '';
+  #services.logind.settings.Login = ''
+  #  HandlePowerKey=hibernate
+  #  HandleSuspendKey=ignore
+  #  HandleHibernateKey=ignore
+  #  HandleLidSwitch=ignore
+  #  HandleLidSwitchDocked=ignore
+  #  HandleLidSwitchExternalPower=ignore
+  #'';
 
   services.gvfs.enable = true;
 
@@ -241,7 +242,7 @@ in
     acpid
     alacritty
     android-tools
-    bitwarden
+    bitwarden-desktop
     brightnessctl
     btop
     caffeine-ng
@@ -268,7 +269,7 @@ in
     lazygit
     kitty
     maliit-keyboard
-    neovim
+    #neovim
     nnn
     nodejs
     obsidian
@@ -281,11 +282,11 @@ in
     ripgrep
     starsector
     swayidle
-    tree-sitter
+    #tree-sitter
     tmux
     tmuxinator
     unzip
-    vieb
+    vieb-pkg
     vlc
     waylock
     wvkbd
@@ -307,9 +308,8 @@ in
   
   # Fonts to be installed in system
  fonts.packages = with pkgs; [
-    noto-fonts
+    noto-fonts-color-emoji
     noto-fonts-cjk-sans
-    noto-fonts-emoji
     liberation_ttf
     nerd-fonts.jetbrains-mono
   ];
