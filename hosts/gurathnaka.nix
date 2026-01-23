@@ -258,6 +258,7 @@ in
     fd
     fzf
     #firefox
+    gcc
     jmtpfs
     git
     gnupg
