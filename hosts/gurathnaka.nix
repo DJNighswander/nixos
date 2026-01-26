@@ -278,6 +278,7 @@ in
     paperkey
     pavucontrol
     pinentry-curses
+    playerctl
     python3
     qutebrowser
     ripgrep

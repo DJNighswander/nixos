@@ -33,7 +33,7 @@ in {
 
       monitor = eDP-1 , 2160x1440@60 , auto-right, 1
       monitor = HDMI-A-1 , 1920x1080@60 , auto-left, 1
-      monitor = DP-2, 2560x1600@40 , 0x0 , 1
+      monitor = DP-2, 2560x1440@40 , 0x0 , 1
 
       workspace = 1, monitor:HDMI-A-1
       workspace = 2, monitor:DP-2,HDMI-A-1
@@ -127,9 +127,9 @@ in {
       }
       
       # https://wiki.hyprland.org/Configuring/Variables/#gestures
-      gestures {
-        workspace_swipe = true
-      }
+      #gestures {
+      #  workspace_swipe = true
+      #}
       
       # Example per-device config
       # See https://wiki.hyprland.org/Configuring/Keywords/#per-device-input-configs for more
