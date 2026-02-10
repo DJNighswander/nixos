@@ -25,7 +25,7 @@ in {
       $terminal = /home/djnighs/.scripts/start_alacritty.sh
       $fileManager = /home/djnighs/.scripts/start_nnn.sh 
       $webBrowser = /home/djnighs/.scripts/start_firefox.sh 
-      $swaylock = ${pkgs.swaylock}/bin/swaylock
+      $hyprlock = ${pkgs.hyprlock}/bin/hyprlock
       $menu = ${pkgs.wofi}/bin/wofi --show drun
 
       env = XCURSOR_SIZE,16
@@ -145,7 +145,7 @@ in {
       bind = $mod, 41, exec, $fileManager # F
       bind = $mod, 55, togglefloating, # V
       bind = $mod, 40, exec, $menu # D
-      bind = $mod SHIFT, 46, exec, $swaylock # Shift + L
+      bind = $mod SHIFT, 46, exec, $hyprlock # Shift + L
       bind = $mod, 33, pseudo, # P
       bind = $mod, 44, togglesplit, # J
       

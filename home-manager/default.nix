@@ -6,7 +6,7 @@
     ./firefox.nix
     ./hypridle.nix
     ./hyprland.nix
-    #./hyprlock.nix
+    ./hyprlock.nix
     #./hyprpaper.nix
     ./neovim.nix
     ./rclone.nix
