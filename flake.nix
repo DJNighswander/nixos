@@ -29,7 +29,7 @@
 	    }
 	  ];
 	};
-        hylaeus = inputs.home-manager.lib.homeManagerConfiguration {
+        hyleaus = inputs.home-manager.lib.homeManagerConfiguration {
 	  modules = [
 	    {
               nixpkgs.overlays = overlays;
@@ -73,9 +73,9 @@
           ];
           specialArgs = {inherit inputs;};
         };
-        hylaeus = nixpkgs.lib.nixosSystem {
+        hyleaus = nixpkgs.lib.nixosSystem {
           modules = [
-            ./hosts/hylaeus.nix
+            ./hosts/hyleaus.nix
             #./modules
   
             {nixpkgs.hostPlatform = "x86_64-linux";}
