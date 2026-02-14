@@ -126,7 +126,7 @@ in
     };
   };
 
-  networking.hostName = "slaanesh"; # Define your hostname.
+  networking.hostName = "herman"; # Define your hostname.
 
   networking.wireless = {
     enable = true;

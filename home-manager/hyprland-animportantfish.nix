@@ -28,31 +28,30 @@ in {
       $hyprlock = ${pkgs.hyprlock}/bin/hyprlock
       $menu = ${pkgs.wofi}/bin/wofi --show drun
 
-      env = XCURSOR_SIZE,8
-      env = HYPRCURSOR_SIZE,8
+      env = XCURSOR_SIZE,16
+      env = HYPRCURSOR_SIZE,16
 
       monitor = eDP-1 , 1920x1080@60 , auto-right, 1
-      monitor = HDMI-A-1 , 1920x1080@60 , auto-left, 1
-      monitor = DP-2, 2560x1440 , 0x0 , 1
+      monitor = HDMI-A-1 , 2560x1440@60 , auto-left, 1
 
       workspace = 1, monitor:HDMI-A-1,eDP-1
-      workspace = 2, monitor:DP-2,HDMI-A-1,eDP-1
-      workspace = 3, monitor:DP-2,HDMI-A-1,eDP-1
+      workspace = 2, monitor:HDMI-A-1,eDP-1
+      workspace = 3, monitor:eDP-1
       workspace = 4, monitor:HDMI-A-1,eDP-1
-      workspace = 5, monitor:DP-2,HDMI-A-1,eDP-1
-      workspace = 6, monitor:DP-2,HDMI-A-1,eDP-1
+      workspace = 5, monitor:HDMI-A-1,eDP-1
+      workspace = 6, monitor:eDP-1
       workspace = 7, monitor:HDMI-A-1,eDP-1
-      workspace = 8, monitor:DP-2,HDMI-A-1,eDP-1
-      workspace = 9, monitor:DP-2,HDMI-A-1,eDP-1
-      workspace = 10, monitor:DP-2,HDMI-A-1,eDP-1
+      workspace = 8, monitor:HDMI-A-1,eDP-1
+      workspace = 9, monitor:eDP-1
+      workspace = 10, monitor:eDP-1
 
       general {
         gaps_in=0
-	      gaps_out=0
-	      border_size=2
-	      col.active_border=${activeBorder}
-	      col.inactive_border=${inactiveBorder}
-	      layout = dwindle
+	gaps_out=0
+	border_size=2
+	col.active_border=${activeBorder}
+	col.inactive_border=${inactiveBorder}
+	layout = dwindle
       }
       decoration {
         rounding = 0
@@ -73,7 +72,7 @@ in {
       }
       misc {
         disable_hyprland_logo=true
-	      disable_splash_rendering=true
+	disable_splash_rendering=true
       }
       animations {
         enabled = yes, please :)
@@ -103,7 +102,7 @@ in {
       dwindle {
         pseudotile = true
         preserve_split = true
-	      force_split=2
+	force_split=2
       }
       master {
         new_status = master
@@ -131,6 +130,13 @@ in {
       #  workspace_swipe = true
       #}
       
+      # Example per-device config
+      # See https://wiki.hyprland.org/Configuring/Keywords/#per-device-input-configs for more
+      device {
+        name = epic-mouse-v1
+        sensitivity = -0.5
+      }
+      
       bind = $mod, 36, exec, $terminal # Return
       bind = $mod SHIFT, 36, exec, $webBrowser # Shift + Return
       bind = $mod, 24, killactive, # Q
@@ -142,15 +148,15 @@ in {
       bind = $mod, 33, pseudo, # P
       bind = $mod, 44, togglesplit, # J
       
-      bind = $mod, 43, movefocus, l # L
-      bind = $mod, 46, movefocus, r # H
+      bind = $mod, 44, movefocus, l # L
+      bind = $mod, 43, movefocus, r # H
       bind = $mod, 45, movefocus, u # K
-      bind = $mod, 44, movefocus, d # J
+      bind = $mod, 46, movefocus, d # J
       
-      bind = $mod, left, movefocus, l # left arrow
-      bind = $mod, 114, movefocus, r # right arrow
-      bind = $mod, 111, movefocus, u # up arrow
-      bind = $mod, 116, movefocus, d # down arrow
+      #bind = $mod, 113, movefocus, l # left arrow
+      #bind = $mod, 114, movefocus, r # right arrow
+      #bind = $mod, 111, movefocus, u # up arrow
+      #bind = $mod, 116, movefocus, d # down arrow
       
       bind = $mod, 10, workspace, 1 # 1
       bind = $mod, 11, workspace, 2 # 2
@@ -212,12 +218,11 @@ in {
       bindel = ,XF86MonBrightnessUp, exec, brightnessctl s 10%+
       bindel = ,XF86MonBrightnessDown, exec, brightnessctl s 10%-
       
-      # Requires playerctl, ignores firefox media
-      bindl = , XF86AudioNext, exec, playerctl --ignore-player=$(playerctl --list-all|grep -m1 '^firefox') next
-      bindl = , XF86AudioPause, exec, playerctl --ignore-player=$(playerctl --list-all|grep -m1 '^firefox') play-pause
-      bindl = , XF86AudioPlay, exec, playerctl --ignore-player=$(playerctl --list-all|grep -m1 '^firefox') play-pause
-      bindl = , XF86AudioPrev, exec, playerctl --ignore-player=$(playerctl --list-all|grep -m1 '^firefox') previous
-
+      # Requires playerctl
+      bindl = , XF86AudioNext, exec, playerctl next
+      bindl = , XF86AudioPause, exec, playerctl play-pause
+      bindl = , XF86AudioPlay, exec, playerctl play-pause
+      bindl = , XF86AudioPrev, exec, playerctl previous
       
       # Ignore maximize requests from apps. You'll probably like this.
       windowrulev2 = suppressevent maximize, class:.*
