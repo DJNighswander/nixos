@@ -83,6 +83,7 @@ in
   };
 
   console = {
+    enable = true;
     font = "Lat2-Terminus16";
     keyMap = lib.mkDefault "us";
     useXkbConfig = true; # use xkb.options in tty.
@@ -109,8 +110,17 @@ in
   # Enable the X11 windowing system/Display Manager
   services.xserver = {
     enable = true;
-    displayManager.lightdm.enable = true;
+    displayManager.lightdm = {
+      enable = true;
+      autoLogin = {
+        enable = true;
+        user = "djnighs";
+      };
+      greeters.slick.enable = true;
+    };
   };
+
+  services.displayManager.defaultSession = "hyprland";
 
   programs.hyprland.enable = true;
 
@@ -148,6 +158,8 @@ in
     enable = true;
     enable32Bit = true;
   };
+
+  hardware.ckb-next.enable = true;
 
   # ACPI daemon
   #services.acpid = {
@@ -248,6 +260,7 @@ in
     caffeine-ng
     calibre
     cataclysm-dda-git
+    ckb-next
     cliphist
     cryptsetup
     curl
@@ -258,8 +271,9 @@ in
     fd
     fzf
     #firefox
-    gcc
+    gcc 
     jmtpfs
+    gamescope
     git
     gnupg
     hypridle
@@ -270,6 +284,7 @@ in
     lazygit
     kitty
     maliit-keyboard
+    nautilus
     #neovim
     nnn
     nodejs
@@ -284,6 +299,7 @@ in
     ripgrep
     starsector
     swayidle
+    system76-keyboard-configurator
     #tree-sitter
     tmux
     tmuxinator
@@ -326,6 +342,13 @@ in
 
   # To fix maliit (supposedly)
   environment.sessionVariables.KWIN_IM_SHOW_ALWAYS="1";
+
+  environment.sessionVariables = rec {
+    XDG_CACHE_HOME = "$HOME/.cache";
+    XDG_CONFIG_HOME = "$HOME/.config";
+    XDG_DATA_HOME = "$HOME/.local/share";
+    XDG_STATE_HOME = "$HOME/.local/state";
+  };
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.

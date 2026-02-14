@@ -290,6 +290,7 @@ in
     caffeine-ng
     calibre
     cataclysm-dda
+    cdk-next
     #cargo2nix
     #cronie
     dconf
