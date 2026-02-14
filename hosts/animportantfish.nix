@@ -88,9 +88,12 @@ in
     useXkbConfig = true; # use xkb.options in tty.
   }; 
 
-    security.pam.services = {
+  security.pam.services = {
     login.u2fAuth = true;
     sudo.u2fAuth = true;
+
+    login.yubicoAuth = true;
+    sudo.yubicoAuth = true;
   };
 
   security.pam.yubico = {
@@ -332,6 +335,8 @@ in
   environment.shellInit = ''
     export GPG_TTY=$(tty)
     gpg-connect-agent updatestartuptty /bye > /dev/null
+    # Point SSH to the GPG agent socket
+    export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
   '';
 
   # Hint Electron apps to use Wayland
@@ -448,6 +453,8 @@ in
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
   
   hardware.system76.enableAll = true;
+  
+  hardware.gpgSmartcards.enable = true;
 
   # This option defines the first version of NixOS you have installed on this particular machine,
   # and is used to maintain compatibility with application data (e.g. databases) created on older NixOS versions.
