@@ -148,10 +148,10 @@ in {
       bind = $mod, 33, pseudo, # P
       bind = $mod, 44, togglesplit, # J
       
-      bind = $mod, 44, movefocus, l # L
-      bind = $mod, 43, movefocus, r # H
+      bind = $mod, 43, movefocus, l # L
+      bind = $mod, 46, movefocus, r # H
       bind = $mod, 45, movefocus, u # K
-      bind = $mod, 46, movefocus, d # J
+      bind = $mod, 44, movefocus, d # J
       
       #bind = $mod, 113, movefocus, l # left arrow
       #bind = $mod, 114, movefocus, r # right arrow
