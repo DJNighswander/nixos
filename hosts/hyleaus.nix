@@ -48,7 +48,7 @@ in
 
   security.pam.services.swaylock = {};
 
-  networking.hostName = "gurathnaka"; # Define your hostname.
+  networking.hostName = "hylaeus"; # Define your hostname.
 
   networking.wireless = {
     enable = true;

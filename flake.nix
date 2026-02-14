@@ -22,14 +22,21 @@
     in
     {
       homeConfigurations = {
-        gurathnaka = inputs.home-manager.lib.homeManagerConfiguration {
+        animportantfish = inputs.home-manager.lib.homeManagerConfiguration {
 	  modules = [
 	    {
               nixpkgs.overlays = overlays;
 	    }
 	  ];
 	};
-        slaanesh = inputs.home-manager.lib.homeManagerConfiguration {
+        hylaeus = inputs.home-manager.lib.homeManagerConfiguration {
+	  modules = [
+	    {
+              nixpkgs.overlays = overlays;
+	    }
+	  ];
+	};
+        herman = inputs.home-manager.lib.homeManagerConfiguration {
 	  modules = [
 	    {
               nixpkgs.overlays = overlays;
@@ -38,9 +45,37 @@
 	};
       };
       nixosConfigurations = {
-        gurathnaka = nixpkgs.lib.nixosSystem {
+        animportantfish = nixpkgs.lib.nixosSystem {
           modules = [
-            ./hosts/gurathnaka.nix
+            ./hosts/animportantfish.nix
+            #./modules
+  
+            {nixpkgs.hostPlatform = "x86_64-linux";}
+            {nixpkgs.config.allowUnfree = true;}
+	    {nixpkgs.config.permittedInsecurePackages = [ "broadcom-sta-6.30.223.271-59-6.18.5" ];}
+  
+            ({ pkgs, ... }: {
+              nix = {
+                registry = {
+                 nixpkgs.flake = nixpkgs;
+                };
+              };
+            })
+  
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.users.djnighs = import ./home-manager/animportantfish.nix;
+              home-manager.extraSpecialArgs = {inherit inputs;};
+              home-manager.backupFileExtension  = "backup";
+            }
+          ];
+          specialArgs = {inherit inputs;};
+        };
+        hylaeus = nixpkgs.lib.nixosSystem {
+          modules = [
+            ./hosts/hylaeus.nix
             #./modules
   
             {nixpkgs.hostPlatform = "x86_64-linux";}
@@ -66,9 +101,9 @@
           ];
           specialArgs = {inherit inputs;};
         };
-        slaanesh = nixpkgs.lib.nixosSystem {
+        herman = nixpkgs.lib.nixosSystem {
           modules = [
-            ./hosts/slaanesh.nix
+            ./hosts/herman.nix
             #./modules
   
             {nixpkgs.hostPlatform = "x86_64-linux";}

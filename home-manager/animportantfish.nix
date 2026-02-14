@@ -5,7 +5,7 @@
     ./bash.nix
     ./firefox.nix
     ./hypridle.nix
-    ./hyprland.nix
+    ./hyprland-animportantfish.nix
     #./hyprlock.nix
     #./hyprpaper.nix
     ./neovim.nix

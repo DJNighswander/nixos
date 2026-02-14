@@ -32,19 +32,18 @@ in {
       env = HYPRCURSOR_SIZE,16
 
       monitor = eDP-1 , 1920x1080@60 , auto-right, 1
-      monitor = HDMI-A-1 , 1920x1080@60 , auto-left, 1
-      monitor = DP-2, 2560x1440@40 , 0x0 , 1
+      monitor = HDMI-A-1 , 2560x1440@60 , auto-left, 1
 
       workspace = 1, monitor:HDMI-A-1,eDP-1
-      workspace = 2, monitor:DP-2,HDMI-A-1,eDP-1
-      workspace = 3, monitor:DP-2,HDMI-A-1,eDP-1
+      workspace = 2, monitor:HDMI-A-1,eDP-1
+      workspace = 3, monitor:eDP-1
       workspace = 4, monitor:HDMI-A-1,eDP-1
-      workspace = 5, monitor:DP-2,HDMI-A-1,eDP-1
-      workspace = 6, monitor:DP-2,HDMI-A-1,eDP-1
+      workspace = 5, monitor:HDMI-A-1,eDP-1
+      workspace = 6, monitor:eDP-1
       workspace = 7, monitor:HDMI-A-1,eDP-1
-      workspace = 8, monitor:DP-2,HDMI-A-1,eDP-1
-      workspace = 9, monitor:DP-2,HDMI-A-1,eDP-1
-      workspace = 10, monitor:DP-2,HDMI-A-1,eDP-1
+      workspace = 8, monitor:HDMI-A-1,eDP-1
+      workspace = 9, monitor:eDP-1
+      workspace = 10, monitor:eDP-1
 
       general {
         gaps_in=0

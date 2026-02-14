@@ -2,74 +2,21 @@
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 
-{ config, lib, pkgs, ... }:
+{ config, inputs, lib, pkgs, ... }:
 
 let
   username = "djnighs";
-
-  OMITmpFolder = "/tmp/daily-OMI-backup";
-  OMISourceFolder = "${config.users.users.${username}.home}/documents/gdrive/OMI_audio";
-  OMIBackupFolder = "${config.users.users.${username}.home}/documents/gdrive/OMI_backups";
-  # This creates a shell script that will be executed by the service.
-  # It creates a timestamped .tar.gz archive of the source folder.
-  OMIBackupScript = pkgs.writeShellScriptBin "daily-OMI-backup" ''
-#!${pkgs.runtimeShell}
-
-# Exit immediately if a command exits with a non-zero status.
-set -e 
-
-# Create the tmp directory if it doesn't already exist.
-# The -p flag ensures that parents directories are also created if needed.
-mkdir -p ${OMITmpFolder}
-
-# Create the destination directory if it doesn't already exist.
-# The -p flag ensures that parent directories are also created if needed.
-mkdir -p ${OMIBackupFolder}
-
-# Generate a timestamp for the backup file, e.g., 2025-08-15_12-30-00
-TIMESTAMP=$(${pkgs.coreutils}/bin/date +"%Y-%m-%d_%H-%M-%S")
-
-# Define the full path and filename for the output tarball.
-FILENAME="${OMIBackupFolder}/${builtins.baseNameOf OMISourceFolder}-$TIMESTAMP.tar.gz"
-
-echo "Starting backup of ${OMISourceFolder} to $FILENAME..."
-
-# Find all .wav files in the source folder, convert them to .flac in the tmp directory,
-# and then remove the original .wav file.
-# Using 'find' is safer for filenames with spaces.
-find "${OMISourceFolder}" -name "*.wav" -print0 | while IFS= read -r -d $'\0' f; do
-  # Get just the filename without the path
-  base_f=$(basename "$f" .wav)
-  echo "Converting $f to FLAC..."
-  # Use the full package path for ffmpeg
-  ${pkgs.ffmpeg}/bin/ffmpeg -i "$f" "${OMITmpFolder}/''${base_f}.flac" && rm "$f"
-done
-
-echo "Creating compressed archive..."
-
-# Use tar to create a compressed (gzipped) archive of the new FLAC files.
-# -c: Create a new archive.
-# -z: Filter the archive through gzip for compression.
-# -f: Specifies the filename of the archive.
-# -C: Change to the specified directory (our tmp folder) before adding files.
-# .: Adds all files from the current directory (which -C changed to OMITmpFolder).
-# This prevents the archive from containing the absolute path of the temp folder.
-${pkgs.gnutar}/bin/tar -cf "$FILENAME" -C "${OMITmpFolder}" .
-
-echo "Backup completed successfully."
-echo "Cleaning up temporary folder..."
-rm -rf ${OMITmpFolder}
-echo "Done."
-  '';
+  vieb-pkg = (inputs.vieb-nix.packagesFunc pkgs).vieb;
 in
 {
   nix.settings = {
     experimental-features = [ "nix-command" "flakes" ];
-    trusted-users = [ "${username}" ];
+    allowed-users = [ "root" "@wheel" "${username}" ];
+    trusted-users = [ "root" "@wheel" "${username}" ];
   };
 
   #nix.buildMachines = [
-  #  hostName = "gurathnaka";
+  #  hostName = "slaanesh";
   #  systems = [ "x86_64-linux" "aarch64-linux" ];
   #    protocol = "ssh-ng";
   #  maxJobs = 4;
@@ -78,10 +25,10 @@ in
   #  mandatoryFeatures = [  ];
   #}];
 
-  nix.distributedBuilds = true;
-  nix.settings.builders = lib.mkDefault [
-    "ssh://gurathnaka x86_64-linux"
-  ];
+  #nix.distributedBuilds = true;
+  #nix.settings.builders = lib.mkDefault [
+  #  "ssh://slaanesh x86_64-linux"
+  #];
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
@@ -92,41 +39,16 @@ in
 
   # Disable tpm2 to stop 1m30s timout on tpm device search on boot
   systemd.tpm2.enable = false;
+  
+  environment.variables.EDITOR = "nvim";
 
-  environment.variables = {
-    DISTCC_HOSTS = "192.168.0.154";
-  }; 
+  #environment.variables = {
+  #  DISTCC_HOSTS = "192.168.0.154";
+  #}; 
 
   security.pam.services.swaylock = {};
 
-  systemd.user.services."daily-OMI-backup" = {
-    # This service is part of the user session, not a system-wide service.
-    # It must be enabled for the specific user.
-    # Run: loginctl enable-linger your-username
-    # This allows the user's services to start at boot without the user logging in.
-
-    description = "A service to backup ${OMISourceFolder} directory as a tarball.";
-
-    serviceConfig = {
-      Type = "oneshot";
-      ExecStart = "${OMIBackupScript}/bin/daily-OMI-backup";
-    };
-  };
-
-  systemd.user.timers."daily-OMI-backup" = {
-    description = "A timer to trigger the daily OMI backup service.";
-
-    # The timer will be started automatically for the specified user.
-    wantedBy = [ "timers.target" ];
-
-    timerConfig = {
-      OnCalendar = "daily";
-      Persistant = true;
-      RandomizedDelaySec = "1h";
-    };
-  };
-
-  networking.hostName = "slaanesh"; # Define your hostname.
+  networking.hostName = "animportantfish"; # Define your hostname.
 
   networking.wireless = {
     enable = true;
@@ -166,6 +88,19 @@ in
     useXkbConfig = true; # use xkb.options in tty.
   }; 
 
+    security.pam.services = {
+    login.u2fAuth = true;
+    sudo.u2fAuth = true;
+  };
+
+  security.pam.yubico = {
+    enable = true;
+    debug = true;
+    mode = "challenge-response";
+    id = [ "15969482" ];
+  };
+
+
   # Enable developer docs
   documentation.dev.enable = true;
 
@@ -185,14 +120,8 @@ in
   #    PKCS11Provider ${
   #      pkgs.opensc
   #    }/lib/pkcs11/opensc-pkcs11.so
-  #  '';
   #};
-
-  programs.steam = {
-    enable = true;
-    #remotePlay.openFirewall = true;
-    #localNetworkGameTransfers.openFirewall = true;
-  };
+#  '';
 
   # Configure keymap in X11
   services.xserver.xkb = {
@@ -200,20 +129,34 @@ in
     options = "caps:escape";
   };
 
+  systemd.services.fix-keyboard-mode = {
+    description = "Set keyboard mode to raw, to disable tty switch on $Mod+(Arrow_Keys)";
+    wantedBy = [ "multi-user.target" ];
+    serviceConfig = {
+     Type = "oneshot";
+     ExecStart = "${pkgs.kbd}/bin/kbd_mode -f -d -C /dev/tty10";
+    };
+  };
+
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
   # logind events
-  services.logind.extraConfig = ''
-    HandlePowerKey=hibernate
-    HandleSuspendKey=ignore
-    HandleHibernateKey=ignore
-    HandleLidSwitch=ignore
-    HandleLidSwitchDocked=ignore
-    HandleLidSwitchExternalPower=ignore
-  '';
+  #services.logind.settings.Login = ''
+  #  HandlePowerKey=hibernate
+  #  HandleSuspendKey=ignore
+  #  HandleHibernateKey=ignore
+  #  HandleLidSwitch=ignore
+  #  HandleLidSwitchDocked=ignore
+  #  HandleLidSwitchExternalPower=ignore
+  #'';
 
   services.gvfs.enable = true;
+
+  hardware.graphics = {
+    enable = true;
+    enable32Bit = true;
+  };
 
   # ACPI daemon
   #services.acpid = {
@@ -250,7 +193,7 @@ in
   };
 
   # Enable touchpad support (enabled default in most desktopManager).
-  services.libinput.enable = true;
+  #services.libinput.enable = true;
   
   # Enable locate services using mlocate
   services.locate = {
@@ -258,6 +201,8 @@ in
     package = pkgs.mlocate;
     interval = "hourly";
   };
+
+  services.udev.packages = [ pkgs.yubikey-personalization ];
 
   services.udisks2.enable = true;
 
@@ -274,10 +219,31 @@ in
     ];
   };
 
-  nixpkgs.config.allowUnfree = true;
-  #nixpkgs.config.allowUnsupportedSystem = true;
+  #users.users.nix-builder = {
+  #  isSystemUser = true;
+  #  group = "nixbld";
+  #  shell = pkgs.bash;
+  #  openssh.authorizedKeys.keys = [
+  #    "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDG8Dlkg9iJxNR0Y+m+aMgvGlPM0eepHbiZmiupf4Q8SK2pxV/BvLkQ5OqNfipVKoHWaUC19wEFYcAw0KscYp36/XKyujItdvOPhSE28JIcl5cy2buvEXTkO/kH6r/axL0d1AxewH6lFMZg2fvB60ZkMctb+XfC294QBeU2H4gLjMGLzI+zwnKrpQZ5WAHR8s2vrtvEYgZMZq8HIbWuV+nnWUIXa3bHltgmclZ1gcKgTrUrdd3m64Em8t0yWe19MqPWd060ltoDzZZb9jxGFzyWttpl2vsLoeZl8YMN6ADGjETgTPVpORuXq0cBXiyEU6cN0mFBA0ZbQHdhundQWFD9 root@slaanesh"
+  #  ];
+  #};
 
-  nixpkgs.config.distcc = true;
+  #nix.settings.allowed-users = [ "root" "@wheel" "nix-builder" "djnighs" ];
+  #nix.settings.trusted-users = [ "root" "@wheel" "nix-builder" "djnighs" ];
+
+  #programs.firefox.enable = true;
+
+  nixpkgs.config.allowUnfree = true;
+  nixpkgs.config.allowUnsupportedSystem = true;
+
+  #nixpkgs.config.distcc = true;
+
+  programs.steam = {
+    enable = true;
+    remotePlay.openFirewall = true;
+    dedicatedServer.openFirewall = true;
+    localNetworkGameTransfers.openFirewall = true;
+  };
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -285,33 +251,56 @@ in
     acpid
     alacritty
     android-tools
-    bitwarden
+    bitwarden-desktop
+    brightnessctl
     btop
     caffeine-ng
     calibre
-    cataclysm-dda
+    cataclysm-dda-git
+    cliphist
+    cryptsetup
+    curl
     #cargo2nix
     #cronie
     dconf
-    firefox
+    distcc
+    fd
+    fzf
+    #firefox
+    gcc
+    gemini-cli
     jmtpfs
     git
+    gnupg
+    hypridle
+    hyprlock
+    hyprpaper
     jq
     libinput
+    lazygit
+    kitty
     maliit-keyboard
-    neovim
+    nautilus
+    #neovim
     nnn
+    nodejs
     obsidian
     opensc
-    python3
+    paperkey
     pavucontrol
+    pinentry-curses
+    playerctl
+    python3
     qutebrowser
+    ripgrep
     starsector
     swayidle
+    system76-keyboard-configurator
+    #tree-sitter
     tmux
     tmuxinator
     unzip
-    vieb
+    vieb-pkg
     vlc
     waylock
     wvkbd
@@ -322,20 +311,27 @@ in
     #xdotool
     xwayland
     ytmdesktop
+    yubioath-flutter
     yubikey-manager
+    yubikey-personalization
     #ydotool
 
     #(callPackage ../derivations/cataclysm-dda.nix {})
   ];
+
   
   # Fonts to be installed in system
  fonts.packages = with pkgs; [
-    noto-fonts
+    noto-fonts-color-emoji
     noto-fonts-cjk-sans
-    noto-fonts-emoji
     liberation_ttf
     nerd-fonts.jetbrains-mono
   ];
+
+  environment.shellInit = ''
+    export GPG_TTY=$(tty)
+    gpg-connect-agent updatestartuptty /bye > /dev/null
+  '';
 
   # Hint Electron apps to use Wayland
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
@@ -343,48 +339,83 @@ in
   # To fix maliit (supposedly)
   environment.sessionVariables.KWIN_IM_SHOW_ALWAYS="1";
 
+  # Some programs need SUID wrappers, can be configured further or are
+  # started in user sessions.
+  # programs.mtr.enable = true;
+  programs.gnupg.agent = {
+    enable = true;
+    enableSSHSupport = true;
+    pinentryPackage = pkgs.pinentry-curses;
+  };
+
   # List services that you want to enable:
 
   # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
+  services.openssh = {
+    enable = true;
+    ports = [ 8022 ];
+    settings = {
+      PasswordAuthentication = false;
+      AllowUsers = null;
+      UseDns = true;
+      X11Forwarding = false;
+      PermitRootLogin = "prohibit-password";
+    };
+  };
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
-  networking.firewall.enable = false;
+  # networking.firewall.enable = false;
 
+
+  # List services that you want to enable:
+ 
   # Add machine-id file source link
   environment.etc."machine-id".source = "/nix/persist/etc/machine-id";
 
+  boot = {
+    kernelModules = [ "kvm-intel" "wl" ];
+    extraModulePackages = [  ];
 
-  boot.initrd.availableKernelModules = [ "xhci_pci" "nvme" "usbhid" "rtsx_usb_sdmmc" ];
-  boot.initrd.kernelModules = [ ];
-  boot.kernelModules = [ "kvm-intel" ];
-  boot.extraModulePackages = [ ];
+    initrd = {
+    availableKernelModules = [ "vfat" "nls_cp437" "nls_iso8859-1" "ahci" "xhci_pci" "thunderbolt" "nvme" "usbhid" "usb_storage" "sd_mod" "rtsx_pci_sdmmc" ];
+    kernelModules = [  ];
+      
+      luks = {
+        yubikeySupport = true;
+      
+        devices."encrypted" = {
+          device = "/dev/disk/by-uuid/dd6d847e-c4d9-4559-928c-1f8974368afc";
+
+	  yubikey = {
+            slot = 2;
+	    twoFactor = true;
+	    gracePeriod = 30;
+	    keyLength = 64;
+	    saltLength = 64;
+
+	    storage = {
+             device = "/dev/disk/by-uuid/DE93-CBCB";
+	     fsType = "vfat";
+	     path = "/crypt-storage/default";
+	    };
+	  };
+        };
+      };
+    };
+  };
 
   fileSystems."/" =
-    { device = "none";
-      fsType = "tmpfs";
-      options = [ "noatime" "mode=755" ];
-    };
-
-  fileSystems."/nix" =
-    { device = "/dev/disk/by-uuid/621c6e35-4933-4571-b642-35e4e0a08290";
-      fsType = "btrfs";
-      options = [ "defaults" "noatime" "compress=zstd:3" "subvol=@nix" ];
-    };
-
-  fileSystems."/home" =
-    { device = "/dev/disk/by-uuid/621c6e35-4933-4571-b642-35e4e0a08290";
-      fsType = "btrfs";
-      options = [ "defaults" "noatime" "compress=zstd:3" "subvol=@home" ];
+    { device = "/dev/mapper/encrypted";
+      fsType = "ext4";
     };
 
   fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/96F8-04A6";
+    { device = "/dev/disk/by-uuid/DE93-CBCB";
       fsType = "vfat";
-      options = [ "defaults" "noatime" "fmask=0022" "dmask=0022" ];
+      options = [ "fmask=0022" "dmask=0022" ];
     };
 
   fileSystems."/home/${username}/nixos" =
@@ -400,7 +431,7 @@ in
     };
 
   swapDevices =
-    [ { device = "/dev/disk/by-uuid/3c8ab64a-61d0-40af-b514-3344c94541eb"; }
+    [ { device = "/dev/disk/by-uuid/c4f11f5a-7a64-42f5-9a73-d80b5f703a86"; }
     ];
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
@@ -414,6 +445,8 @@ in
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.enableRedistributableFirmware = true;
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+  
+  hardware.system76.enableAll = true;
 
   # This option defines the first version of NixOS you have installed on this particular machine,
   # and is used to maintain compatibility with application data (e.g. databases) created on older NixOS versions.
@@ -433,5 +466,4 @@ in
   #
   # For more information, see `man configuration.nix` or https://nixos.org/manual/nixos/stable/options#opt-system.stateVersion .
   system.stateVersion = "24.11"; # Did you read the comment?
-
 }
