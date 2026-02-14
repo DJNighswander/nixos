@@ -9,26 +9,26 @@
         after_sleep_cmd = "hyprctl dispatch dpms on";
       };
       
-      listener = [	# monitor backlight (avoid 0 on OLED)
+      listener = [  # monitor backlight (avoid 0 on OLED)
         #{
-        #  timeout = 480;	# 8 minutes
+        #  timeout = 480; # 8 minutes
         #  on-timeout = "brightnessctl -s set 10";
         #  on-resume = "brightnessctl -r";
         #}{
-        #  timeout = 480; 	# 8 minutes
+        #  timeout = 480; # 8 minutes
         #  on-timeout = "brightnessctl -sd rgb:kbd_backlight set 0";
         #  on-resume = "brightnessctl -rd rgb:kbd_backlight";
         #}
         {
           timeout = 600;
-          on-timout = "loginctl lock-session";
+          on-timeout = "loginctl lock-session";
         }{
-          timeout = 660;	# 11 minutes
+          timeout = 660; # 11 minutes
           on-timeout = "hyprctl dispatch dpms off";
           on-resume = "hyprctl dispatch dpms on && brightnessctl -r";
         }
         #{
-        #  timeout = 1800;	# 30 minutes
+        #  timeout = 1800;  # 30 minutes
 	      #}
       ];
     };
