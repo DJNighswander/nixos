@@ -311,6 +311,7 @@ in
     #xdotool
     xwayland
     ytmdesktop
+    yubico-pam
     yubioath-flutter
     yubikey-manager
     yubikey-personalization
