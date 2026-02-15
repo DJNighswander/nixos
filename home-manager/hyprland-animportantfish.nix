@@ -146,17 +146,17 @@ in {
       bind = $mod, 40, exec, $menu # D
       bind = $mod SHIFT, 46, exec, $hyprlock # Shift + L
       bind = $mod, 33, pseudo, # P
-      bind = $mod, 44, togglesplit, # J
+      bind = $mod, 39, togglesplit, # S
       
       bind = $mod, 43, movefocus, l # L
       bind = $mod, 46, movefocus, r # H
       bind = $mod, 45, movefocus, u # K
       bind = $mod, 44, movefocus, d # J
       
-      #bind = $mod, 113, movefocus, l # left arrow
-      #bind = $mod, 114, movefocus, r # right arrow
-      #bind = $mod, 111, movefocus, u # up arrow
-      #bind = $mod, 116, movefocus, d # down arrow
+      bind = $mod, 113, movefocus, l # left arrow
+      bind = $mod, 114, movefocus, r # right arrow
+      bind = $mod, 111, movefocus, u # up arrow
+      bind = $mod, 116, movefocus, d # down arrow
       
       bind = $mod, 10, workspace, 1 # 1
       bind = $mod, 11, workspace, 2 # 2
@@ -202,8 +202,8 @@ in {
       bind = $mod SHIFT, 81, movetoworkspace, 9 # Shift + kp_9
       bind = $mod SHIFT, 90, movetoworkspace, 10 # Shift + kp_0
       
-      bind = $mod, 39, togglespecialworkspace, magic # S
-      bind = $mod SHIFT, 39, movetoworkspace, special:magic # Shift + S
+      #bind = $mod, 39, togglespecialworkspace, magic # S
+      #bind = $mod SHIFT, 39, movetoworkspace, special:magic # Shift + S
       
       bind = $mod, mouse_down, workspace, e+1
       bind = $mod, mouse_up, workspace, e-1

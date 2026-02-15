@@ -28,18 +28,35 @@ in
 
       luks = {
         yubikeySupport = true;
-        devices."encrypted" = {
-          device = "/dev/disk/by-uuid/dd6d847e-c4d9-4559-928c-1f8974368afc";
-          yubikey = {
-            slot = 2;
-            twoFactor = true;
-            gracePeriod = 30;
-            keyLength = 64;
-            saltLength = 64;
-            storage = {
-              device = "/dev/disk/by-uuid/DE93-CBCB";
-              fsType = "vfat";
-              path = "/crypt-storage/default";
+        devices = {
+          "encrypted" = {
+            device = "/dev/disk/by-uuid/dd6d847e-c4d9-4559-928c-1f8974368afc";
+            yubikey = {
+              slot = 2;
+              twoFactor = true;
+              gracePeriod = 30;
+              keyLength = 64;
+              saltLength = 64;
+              storage = {
+                device = "/dev/disk/by-uuid/DE93-CBCB";
+                fsType = "vfat";
+                path = "/crypt-storage/default";
+              };
+            };
+          };
+          "encrypted_data" = {
+            device = "/dev/disk/by-uuid/1fb94d21-d05b-4206-8f7a-90e0942828b6";
+            yubikey = {
+              slot = 2;
+              twoFactor = true;
+              gracePeriod = 30;
+              keyLength = 64;
+              saltLength = 64;
+              storage = {
+                device = "/dev/disk/by-uuid/DE93-CBCB";
+                fsType = "vfat";
+                path = "/crypt-storage/data";
+              };
             };
           };
         };
@@ -89,6 +106,7 @@ in
       distcc
       fd
       fzf
+      gamescope
       gcc
       gemini-cli
       jmtpfs
@@ -142,7 +160,7 @@ in
     useDHCP = lib.mkDefault true;
     wireless = {
       enable = true;
-      userControlled.enable = true;
+      userControlled = true;
       networks = {
         "TP-Link_D3CC".pskRaw = "b8c5cb09a554da4a5000da097d1cc302c34a1e76f93c9d53b237b2df05c52921";
         "Ammetsuba".pskRaw = "ffa47da00898ddc9e0f0990e7fe096a3f434c1025ed1188d1b92377d30022deb";
@@ -297,11 +315,15 @@ in
       fsType = "vfat";
       options = [ "fmask=0022" "dmask=0022" ];
     };
-    "/home/${username}/nixos" = {
-      device = "/nix/persist/etc/nixos";
-      fsType = "none";
-      options = [ "bind" ];
+    "/data" = {
+      device = "/dev/mapper/encrypted_data";
+      fsType = "ext4";
     };
+    #"/home/${username}/nixos" = {
+    #  device = "/nix/persist/etc/nixos";
+    #  fsType = "none";
+    #  options = [ "bind" ];
+    #};
     "/var/log" = {
       device = "/nix/persist/var/log";
       fsType = "none";
