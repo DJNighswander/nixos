@@ -4,6 +4,7 @@
     ./alacritty.nix
     ./bash.nix
     ./firefox.nix
+    ./gpg.nix
     ./hypridle.nix
     ./hyprland-animportantfish.nix
     #./hyprlock.nix

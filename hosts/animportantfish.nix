@@ -86,6 +86,7 @@ in
     sessionVariables = {
       NIXOS_OZONE_WL = "1";
       KWIN_IM_SHOW_ALWAYS = "1";
+      SSH_AUTH_SOCK = "/run/user/1000/gnupg/S.gpg-agent.ssh";
     };
     etc."machine-id".source = "/nix/persist/etc/machine-id";
     
@@ -117,6 +118,7 @@ in
       hyprpaper
       jq
       libinput
+      libusb1
       lazygit
       kitty
       maliit-keyboard
@@ -271,6 +273,7 @@ in
   };
 
   hardware = {
+    gpgSmartcards.enable = true;
     enableRedistributableFirmware = true;
     graphics = {
       enable = true;
@@ -335,5 +338,5 @@ in
     { device = "/dev/disk/by-uuid/c4f11f5a-7a64-42f5-9a73-d80b5f703a86"; }
   ];
 
-  system.stateVersion = "24.11";
+  system.stateVersion = "25.11";
 }

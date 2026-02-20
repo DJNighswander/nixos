@@ -7,14 +7,21 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
+    neovim-nightly-overlay = {
+      url = "github:nix-community/neovim-nightly-overlay";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    rust-overlay = {
+      url= "github:oxalica/rust-overlay";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     vieb-nix = {
       url = "github:tejing1/vieb-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
-  outputs = { self, nixpkgs, home-manager, vieb-nix, ... }@inputs:
+  outputs = { self, nixpkgs, home-manager, rust-overlay, neovim-nightly-overlay, vieb-nix, ... }@inputs:
     let
       overlays = [
         inputs.neovim-nightly-overlay.overlays.default
@@ -80,7 +87,7 @@
   
             {nixpkgs.hostPlatform = "x86_64-linux";}
             {nixpkgs.config.allowUnfree = true;}
-	    {nixpkgs.config.permittedInsecurePackages = [ "broadcom-sta-6.30.223.271-59-6.18.5" ];}
+	          {nixpkgs.config.permittedInsecurePackages = [ "broadcom-sta-6.30.223.271-59-6.18.5" ];}
   
             ({ pkgs, ... }: {
               nix = {
