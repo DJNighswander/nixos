@@ -130,6 +130,7 @@ in
       paperkey
       pavucontrol
       pinentry-curses
+      pinentry-gnome3
       playerctl
       python3
       qutebrowser
@@ -210,6 +211,7 @@ in
   documentation.dev.enable = true;
 
   services = {
+    blueman.enable = true;
     pcscd.enable = true;
     printing.enable = true;
     gvfs.enable = true;
@@ -268,11 +270,24 @@ in
     gnupg.agent = {
       enable = true;
       enableSSHSupport = true;
-      pinentryPackage = pkgs.pinentry-curses;
+      pinentryPackage = pkgs.pinentry-gnome3;
     };
   };
 
   hardware = {
+    bluetooth = {
+      enable = true;
+      powerOnBoot = true;
+      settings = {
+        General = {
+          Experimental = true;
+          FastConnectable = true;
+        };
+        Policy = {
+          AutoEnable = true;
+        };
+      };
+    };
     gpgSmartcards.enable = true;
     enableRedistributableFirmware = true;
     graphics = {
