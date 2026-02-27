@@ -128,7 +128,7 @@
             {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
-              home-manager.users.djnighs = import ./home-manager/default.nix;
+              home-manager.users.djnighs = import ./home-manager/herman.nix;
               home-manager.extraSpecialArgs = {inherit inputs;};
               home-manager.backupFileExtension  = "hm-backup";
             }
