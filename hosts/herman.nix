@@ -40,6 +40,7 @@ in
     '';
     
     sessionVariables = {
+      LIBVA_DRIVER_NAME = "iHD";
       NIXOS_OZONE_WL = "1";
       KWIN_IM_SHOW_ALWAYS = "1";
       SSH_AUTH_SOCK = "/run/user/1000/gnupg/S.gpg-agent.ssh";
@@ -56,7 +57,7 @@ in
       brightnessctl
       btop
       caffeine-ng
-      calibre
+      #calibre
       cataclysm-dda-git
       ckb-next
       cliphist
@@ -176,6 +177,7 @@ in
 
   services = {
     blueman.enable = true;
+    fwupd.enable = true;
     pcscd.enable = true;
     printing.enable = true;
     gvfs.enable = true;
@@ -207,6 +209,10 @@ in
     };
 
     udev.packages = [ pkgs.yubikey-personalization ];
+    udev.extraHwdb = ''
+      sensor:modalias:acpi:KIOX000A*:dmi:*:*
+        ACCEL_MOUNT_MATRIX=1, 0, 0; 0, -1, 0; 0, 0, 1
+    '';
 
     openssh = {
       enable = true;
@@ -239,6 +245,7 @@ in
   };
 
   hardware = {
+    sensor.iio.enable = lib.mkDefault true;
     bluetooth = {
       enable = true;
       powerOnBoot = true;
@@ -257,6 +264,10 @@ in
     graphics = {
       enable = true;
       enable32Bit = true;
+      extraPackages = with pkgs; [
+        intel-media-driver
+	vpl-gpu-rt
+      ];
     };
     cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
     system76.enableAll = true;
@@ -291,7 +302,7 @@ in
 
   boot = {
     kernelPackages = pkgs.linuxPackages_latest;
-    kernelModules = [ "kvm-intel" ];
+    kernelModules = [ "kvm-intel"  "rtsx_usb"  "rtsx_usb_sdmmc" ];
     extraModulePackages = [ ];
 
     loader = {
@@ -301,23 +312,38 @@ in
     };
 
     initrd = {
-      availableKernelModules = [ "xhci_pci" "nvme" "usbhid" "rtsx_usb_sdmmc" ];
+      availableKernelModules = [ "xhci_pci" "nvme" "usbhid" "rtsx_usb" "rtsx_usb_sdmmc" ];
       kernelModules = [ "vfat" "nls_cp437" "nls_iso8859-1" "usbhid" ];
       luks = {
         yubikeySupport = true;
 	devices = {
 	  "encrypted" = {
-            device = "/dev/disk/by-uuid/7285cdea-4a5c-49c3-8440-b1baedb135ef";
+      device = "/dev/disk/by-uuid/7285cdea-4a5c-49c3-8440-b1baedb135ef";
 	    yubikey = {
-              slot = 2;
+        slot = 2;
 	      twoFactor = true;
 	      gracePeriod = 30;
 	      keyLength = 64;
 	      saltLength = 64;
 	      storage = {
-		device = "/dev/disk/by-uuid/12CE-A600";
-		fsType = "vfat";
-		path = "/crypt-storage/default";
+		      device = "/dev/disk/by-uuid/12CE-A600";
+		      fsType = "vfat";
+		      path = "/crypt-storage/default";
+	      };
+	    };
+	  };
+	  "sdcard_encrypted" = {
+      device = "/dev/disk/by-uuid/0d87260b-1166-4f17-9eed-47a80a0e485b";
+	    yubikey = {
+        slot = 2;
+	      twoFactor = true;
+	      gracePeriod = 30;
+	      keyLength = 64;
+	      saltLength = 64;
+	      storage = {
+		      device = "/dev/disk/by-uuid/12CE-A600";
+		      fsType = "vfat";
+		      path = "/crypt-storage/sdcard";
 	      };
 	    };
 	  };

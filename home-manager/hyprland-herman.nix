@@ -31,7 +31,7 @@ in {
       env = XCURSOR_SIZE,16
       env = HYPRCURSOR_SIZE,16
 
-      monitor = eDP-1 , 2160x1440@60 , auto , 1
+      monitor = eDP-1 , 2160x1440@60 , auto , 1.25
 
       workspace = 1, monitor:eDP-1
       workspace = 2, monitor:eDP-1
@@ -55,7 +55,7 @@ in {
       decoration {
         rounding = 0
         active_opacity = 1.0
-        inactive_opacity = 0.50
+        inactive_opacity = 1.0
         shadow {
           enabled = false
           range = 4
@@ -224,10 +224,10 @@ in {
       bindl = , XF86AudioPrev, exec, playerctl previous
       
       # Ignore maximize requests from apps. You'll probably like this.
-      windowrulev2 = suppressevent maximize, class:.*
+      windowrule = match:class .*,suppress_event maximize
       
       # Fix some dragging issues with XWayland
-      windowrulev2 = nofocus,class:^$,title:^$,xwayland:1,floating:1,fullscreen:0,pinned:0
+      windowrule = match:class ^$, match:title ^$, match:xwayland 1, match:fullscreen 0, no_focus on
     '';
   };  
 }

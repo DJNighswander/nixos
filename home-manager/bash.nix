@@ -58,6 +58,10 @@
         alias nixos-edit-host='nvim /home/djnighs/nixos/hosts/slaanesh.nix'
         alias nixos-edit='nvim /home/djnighs/nixos/'
         alias nixos-build='sudo nixos-rebuild --flake /home/djnighs/nixos/ switch'
+
+
+        # neovim wrapper
+        alias nvim='/home/djnighs/.scripts/nvim_wrapper.sh'
       '';
     };
     "/home/djnighs/.bash_profile" = {

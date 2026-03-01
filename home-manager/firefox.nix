@@ -49,6 +49,7 @@ in
       '';
       settings = {
         "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
+        "full-screen-api.ignore-widgets" = true;
       };
     };
     package = Firefox-custom;

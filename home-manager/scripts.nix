@@ -1,5 +1,9 @@
 { pkgs, ... }: {
   home.file = {
+    "/home/djnighs/.scripts/nvim_wrapper.sh" = {
+      executable = true;
+      source = ./scripts/nvim_wrapper.sh;
+    };
     "/home/djnighs/.scripts/start_once_wrapper.sh" = {
       executable = true;
       source = ./scripts/start_once_wrapper.sh;
