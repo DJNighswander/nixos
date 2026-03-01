@@ -197,7 +197,7 @@ in
       enable = true;
       alsa = {
         enable = true;
-        support32Bit = true;
+    support32Bit = true;
       };
       pulse.enable = true;
     };
@@ -211,7 +211,11 @@ in
     udev.packages = [ pkgs.yubikey-personalization ];
     udev.extraHwdb = ''
       sensor:modalias:acpi:KIOX000A*:dmi:*:*
-        ACCEL_MOUNT_MATRIX=1, 0, 0; 0, -1, 0; 0, 0, 1
+      ACCEL_MOUNT_MATRIX=1, 0, 0; 0, -1, 0; 0, 0, 1
+    '';
+    udev.extraRules = ''
+      # Disable tip click for the Starlite Stylus
+      ATTRS{name}=="gxtp7386:00-27c6:0111-stylus", ENV{LIBINPUT_ATTR_TABLET_TOOL_NO_TIP_OUT}="1"
     '';
 
     openssh = {

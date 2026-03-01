@@ -108,9 +108,9 @@ in {
       }
       input {
         kb_layout = us
-        kb_variant =
+        kb_variant = 
         kb_model =
-        kb_options =
+        kb_options = "caps:escape"
         kb_rules =
       
         follow_mouse = 1
@@ -134,6 +134,10 @@ in {
       device {
         name = epic-mouse-v1
         sensitivity = -0.5
+      }
+      device {
+        name = gxtp7386:00-27c6:0111-stylus
+        output = eDP-1
       }
       
       bind = $mod, 36, exec, $terminal # Return

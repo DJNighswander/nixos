@@ -55,9 +55,11 @@
         nix-search() {
           nix search nixpkgs $1 | less
         }
-        alias nixos-edit-host='nvim /home/djnighs/nixos/hosts/slaanesh.nix'
-        alias nixos-edit='nvim /home/djnighs/nixos/'
-        alias nixos-build='sudo nixos-rebuild --flake /home/djnighs/nixos/ switch'
+        alias nixos-edit-herman='nvim /etc/nixos/hosts/herman.nix'
+        alias nixos-edit-hyleaus='nvim /etc/nixos/hosts/hyleaus.nix'
+        alias nixos-edit-animportantfish='nvim /etc/nixos/hosts/animportantfish.nix'
+        alias nixos-edit='nvim /etc/nixos/'
+        alias nixos-build='sudo nixos-rebuild --flake /etc/nixos/ switch'
 
 
         # neovim wrapper
