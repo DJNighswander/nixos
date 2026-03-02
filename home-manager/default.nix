@@ -9,7 +9,8 @@
     ./hyprland.nix
     #./hyprlock.nix
     #./hyprpaper.nix
-    ./neovim.nix
+    ./lazyvim.nix
+    #./neovim.nix
     ./rclone.nix
     ./scripts.nix
     ./swaylock.nix

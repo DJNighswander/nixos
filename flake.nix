@@ -4,6 +4,7 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+    lazyvim-nix.url = "github:pfassina/lazyvim-nix";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -22,7 +23,7 @@
     };
   };
 
-  outputs = { self, nixpkgs, home-manager, rust-overlay, neovim-nightly-overlay, vieb-nix, ... }@inputs:
+  outputs = { self, nixpkgs, home-manager, lazyvim-nix, rust-overlay, neovim-nightly-overlay, vieb-nix, ... }@inputs:
     let
       overlays = [
         inputs.neovim-nightly-overlay.overlays.default
