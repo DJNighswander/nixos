@@ -61,9 +61,6 @@
         alias nixos-edit='nvim /etc/nixos/'
         alias nixos-build='sudo nixos-rebuild --flake /etc/nixos/ switch'
 
-
-        # neovim wrapper
-        alias nvim='/home/djnighs/.scripts/nvim_wrapper.sh'
       '';
     };
     "/home/djnighs/.bash_profile" = {
