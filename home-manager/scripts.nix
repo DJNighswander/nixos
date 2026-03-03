@@ -12,6 +12,13 @@
       executable = true;
       source = ./scripts/toggle_onscreen_keyboard.sh;
     };
+    "/home/djnighs/.config/nwg-wrapper/btop_background.sh" = {
+      executable = true;
+      text = ''
+        #!/usr/bin/bash
+        alacritty -T "bg_term" -e btop
+      '';
+    };
     "/home/djnighs/.scripts/start_tmux.sh" = {
       executable = true;
       text = ''

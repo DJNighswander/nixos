@@ -51,6 +51,7 @@ in
     # Combined package lists from both configs, deduplicated and sorted
     systemPackages = with pkgs; [
       acpid
+      aider-chat
       alacritty
       android-tools
       bitwarden-desktop
@@ -61,6 +62,7 @@ in
       cataclysm-dda-git
       ckb-next
       cliphist
+      conky
       cryptsetup
       curl
       dconf
@@ -87,6 +89,7 @@ in
       neovim
       nnn
       nodejs
+      nwg-wrapper
       obsidian
       opensc
       paperkey

@@ -19,6 +19,8 @@ in {
     extraConfig = ''
       exec = systemctl --user start hyprland-session.target
       exec-once = ${startupScript}/bin/hyprland-init
+      exec-once = kitten panel --edge=none --layer=background --margin-top=27 -o background_opacity=1. -o background="#282828" btop;
+
 
       $mod = SUPER;
 
