@@ -1,0 +1,11 @@
+nix-shell https://github.com/sgillespie/nixos-yubikey-luks/archive/master.tar.gz
+SALT_LENGTH=64
+SALT="$(dd if=/dev/random bs=1 count=$SALT_LENGTH 2>/dev/null | rbtohex)"
+USER_PASSPHRASE="grander07whirling21Prime!"
+CHALLENGE="$(echo -n $SALT | openssl dgst -binary -sha512 | rbtohex)"
+RESPONSE=$(ykchalresp -2 -x $CHALLENGE 2>/dev/null)
+KEY_LENGTH=512
+ITERATIONS=1000000
+LUKS_KEY="$(echo -n $USER_PASSPHRASE | pbkdf2-sha512 $(($KEY_LENGTH / 8)) $ITERATIONS $RESPONSE | rbtohex)"
+CIPHER=aes-xts-plain64
+HASH=sha512

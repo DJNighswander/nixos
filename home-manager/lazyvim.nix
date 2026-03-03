@@ -32,5 +32,12 @@
 }:
 {
   imports = [ lazyvim.homeManagerModules.default ];
-  programs.lazyvim.enable = true;
+  programs.lazyvim = {
+    enable= true;
+    extraPackages = with pkgs; [
+      rustc
+      cargo
+      pkg-config
+    ];
+  };
 }

@@ -11,9 +11,15 @@ in
 {
   nix = {
     settings = {
+      auto-optimise-store = true;
       experimental-features = [ "nix-command" "flakes" ];
       allowed-users = [ "root" "@wheel" "${username}" ];
       trusted-users = [ "root" "@wheel" "${username}" ];
+    };
+    gc = {
+      automatic = true;
+      dates = "weekly";
+      options = "--delete-older-than 7d";
     };
     distributedBuilds = true;
   };
@@ -108,6 +114,7 @@ in
       unzip
       vieb-pkg
       vlc
+      zzz
       waylock
       wget
       wl-clipboard
@@ -339,6 +346,21 @@ in
 	      };
 	    };
 	  };
+	  "swap" = {
+      device = "/dev/disk/by-uuid/38182ac0-8d4b-447f-971a-d3b86245fc82";
+	    yubikey = {
+        slot = 2;
+	      twoFactor = true;
+	      gracePeriod = 30;
+	      keyLength = 64;
+	      saltLength = 64;
+	      storage = {
+		      device = "/dev/disk/by-uuid/12CE-A600";
+		      fsType = "vfat";
+		      path = "/crypt-storage/swap";
+	      };
+	    };
+	  };
 	  "sdcard_encrypted" = {
       device = "/dev/disk/by-uuid/0d87260b-1166-4f17-9eed-47a80a0e485b";
 	    yubikey = {
@@ -384,9 +406,14 @@ in
     };
   };
 
-  swapDevices = [
-    { device = "/dev/disk/by-uuid/62d51e08-b49f-4d65-942c-37ec0d5ab843"; }
-  ];
+  swapDevices = [{
+    device = "/dev/disk/by-uuid/e9dd40fa-a7c1-4163-84d5-05586f5a20a9";
+    encrypted = {
+      enable = true;
+      label = "swap";
+      blkDev = "/dev/disk/by-uuid/38182ac0-8d4b-447f-971a-d3b86245fc82";
+    };
+  }];
   # Note: Left at 24.11 since you shouldn't change stateVersion after initial install on a given machine
   system.stateVersion = "24.11"; 
 }
