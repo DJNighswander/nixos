@@ -213,15 +213,17 @@ in
     pam = {
       services = {
         swaylock = { };
-        # WARNING: Ensure your Yubikey is registered for Herman before leaving these set to true!
-        login.u2fAuth = true;
-        sudo.u2fAuth = true;
+        # Ensure standard password authentication remains active
+        # By default, NixOS stacks these, requiring both the password AND the Yubico module
+        login.u2fAuth = lib.mkForce false;
+        sudo.u2fAuth = lib.mkForce false;
       };
       yubico = {
         enable = true;
-        debug = true;
+        debug = false;
         mode = "challenge-response";
-        id = [ "15969482" ];
+        id = [ "15969482" "14596532" "1459655" ];
+        control = "required";
       };
     };
   };
