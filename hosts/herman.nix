@@ -36,10 +36,51 @@ in
         ExecStart = "${pkgs.kbd}/bin/kbd_mode -f -d -C /dev/tty10";
       };
     };
+    tmpfiles.rules = [
+      "f /sys/power/state 0664 root power -"
+    ];
   };
 
   environment = {
     variables.EDITOR = "nvim";
+    shellAliases = { 
+        ".." = "cd ..";
+        ".2" = "cd ../..";
+        ".3" = "cd ../../..";
+        ".4" = "cd ../../../..";
+        ".5" = "cd ../../../../..";
+        lm = "ls | more";
+        ll = "ls -lFh";
+        la = "ls -alFh --group-directories-first";
+        l1 = "ls -1F --group-directories-first";
+        l1m  = "ls -1F --group-directories-first | more";
+        lh  = "ls -ld .??*";
+        lsn  = "ls | cat -n";
+        mkdir ="mkdir -p -v";
+        cp  = "cp --preserve=all";
+        cpv  = "cp --preserve=all -v";
+        cpr  = "cp --preserve=all -R";
+        cpp  = "rsync -ahW --info=progress2";
+        cs  = "printf '\033c'";
+        q  = "exit";
+        c  = "clear";
+        count  = "find . -type f | wc -l";
+        fbig = "find . -size +128M -type f -printf '%s %p\n'| sort -nr | head -16";
+        randir  = "mkdir -p ./$(cat /dev/urandom | tr -cd 'a-z' | head -c 4)/$(cat /dev/urandom | tr -cd 'a-z' | head -c 4)/";
+        df  = "df -Tha --total";
+        free  = "free -mt";
+        psa  = "ps auxf";
+        cputemp  = "sensors | grep Core";
+	      vieb  = "vieb --force_low_power_gpu --ignore-gpu-blacklist --enable-features=UseOzonePlatform,WebRTCPipeWireCapturer,WebContentsForceDark,VaapiVideoDecoder --ozone-platform=wayland";
+        sleep  = "systemctl suspend";
+        suspend  = "systemctl suspend";
+        hibernate  = "systemctl hibernate";
+        nixos-edit-herman  = "nvim /etc/nixos/hosts/herman.nix";
+        nixos-edit-hyleaus  = "nvim /etc/nixos/hosts/hyleaus.nix";
+        nixos-edit-animportantfish  = "nvim /etc/nixos/hosts/animportantfish.nix";
+        nixos-edit  = "nvim /etc/nixos/";
+        nixos-build  = "sudo nixos-rebuild --flake /etc/nixos/ switch";
+    };
     shellInit = ''
       export GPG_TTY=$(tty)
       gpg-connect-agent updatestartuptty /bye > /dev/null
@@ -168,18 +209,20 @@ in
     useXkbConfig = true;
   };
 
-  security.pam = {
-    services = {
-      swaylock = { };
-      # WARNING: Ensure your Yubikey is registered for Herman before leaving these set to true!
-      login.u2fAuth = true;
-      sudo.u2fAuth = true;
-    };
-    yubico = {
-      enable = true;
-      debug = true;
-      mode = "challenge-response";
-      id = [ "15969482" ];
+  security = {
+    pam = {
+      services = {
+        swaylock = { };
+        # WARNING: Ensure your Yubikey is registered for Herman before leaving these set to true!
+        login.u2fAuth = true;
+        sudo.u2fAuth = true;
+      };
+      yubico = {
+        enable = true;
+        debug = true;
+        mode = "challenge-response";
+        id = [ "15969482" ];
+      };
     };
   };
 
@@ -226,6 +269,8 @@ in
     udev.extraRules = ''
       # Disable tip click for the Starlite Stylus
       ATTRS{name}=="gxtp7386:00-27c6:0111-stylus", ENV{LIBINPUT_ATTR_TABLET_TOOL_NO_TIP_OUT}="1"
+      # Grant members of the "power" group write access to the power state file
+      SUBSYSTEM=="power", KERNEL=="state", GROUP="power", MODE="0664"
     '';
 
     openssh = {
@@ -292,7 +337,7 @@ in
     users.${username} = {
       isNormalUser = true;
       initialHashedPassword = "$6$4qDFbum0JL3bNSZ3$yRpaEp7fQ4MhvNQRZpVWhSIvB6UmBw1aamISNWTqKGzo0SzqphT7d8BW10rC1lcEDPMJn/YcaoVOILp.DIhRm0";
-      extraGroups = [ "wheel" "mlocate" ];
+      extraGroups = [ "wheel" "power" "mlocate" ];
       packages = with pkgs; [ tree ];
     };
   };
