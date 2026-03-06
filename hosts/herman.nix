@@ -72,7 +72,7 @@ in
         psa  = "ps auxf";
         cputemp  = "sensors | grep Core";
 	      vieb  = "vieb --force_low_power_gpu --ignore-gpu-blacklist --enable-features=UseOzonePlatform,WebRTCPipeWireCapturer,WebContentsForceDark,VaapiVideoDecoder --ozone-platform=wayland";
-        sleep  = "systemctl suspend";
+        #sleep  = "systemctl suspend";
         suspend  = "systemctl suspend";
         hibernate  = "systemctl hibernate";
         nixos-edit-herman  = "nvim /etc/nixos/hosts/herman.nix";
@@ -112,6 +112,7 @@ in
       conky
       cryptsetup
       curl
+      #cursor-cli
       dconf
       distcc
       fd
@@ -155,7 +156,6 @@ in
       unzip
       vieb-pkg
       vlc
-      zzz
       waylock
       wget
       wl-clipboard

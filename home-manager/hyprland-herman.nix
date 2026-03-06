@@ -19,10 +19,11 @@ in {
     extraConfig = ''
       exec = systemctl --user start hyprland-session.target
       exec-once = ${startupScript}/bin/hyprland-init
-      exec-once = kitten panel --edge=none --layer=background --margin-top=27 -o background_opacity=1. -o background="#282828" btop;
+      exec-once = /home/djnighs/.scripts/start_btop_background.sh
 
 
-      $mod = SUPER;
+
+      $mod = SUPER
 
       $terminal = /home/djnighs/.scripts/start_alacritty.sh
       $fileManager = /home/djnighs/.scripts/start_nnn.sh 
@@ -107,6 +108,9 @@ in {
       }
       master {
         new_status = master
+      }
+      cursor {
+        no_hardware_cursors = true
       }
       input {
         kb_layout = us

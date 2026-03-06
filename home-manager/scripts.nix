@@ -12,6 +12,12 @@
       executable = true;
       source = ./scripts/toggle_onscreen_keyboard.sh;
     };
+    "/home/djnighs/.scripts/start_btop_background.sh" = {
+      executable = true;
+      text = ''
+        kitten panel --edge=none --layer=background --margin-top=27 -o background_opacity=1. -o background="#282828" btop
+      '';
+    };
     "/home/djnighs/.config/nwg-wrapper/btop_background.sh" = {
       executable = true;
       text = ''
