@@ -44,6 +44,7 @@ in
   environment = {
     variables.EDITOR = "nvim";
     shellAliases = { 
+        "ssh-ammutseba" = "ssh -i ~/.ssh/id_ed25519 -p 8022 ammutseba";
         ".." = "cd ..";
         ".2" = "cd ../..";
         ".3" = "cd ../../..";
@@ -183,6 +184,10 @@ in
         "TP-Link_D3CC".pskRaw = "b8c5cb09a554da4a5000da097d1cc302c34a1e76f93c9d53b237b2df05c52921";
         "Ammetsuba".pskRaw = "ffa47da00898ddc9e0f0990e7fe096a3f434c1025ed1188d1b92377d30022deb";
       };
+    };
+
+    hosts = {
+      "192.168.0.151" = [ "ammutseba" ];
     };
   };
 
