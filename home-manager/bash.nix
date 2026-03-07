@@ -84,6 +84,11 @@
         if [ -f ~/.bash_aliases ]; then
           . .bash_aliases
         fi
+
+        if [ -f ~/.scripts/set_openrouter_api_key.sh ]; then
+          ./.scripts/set_openrouter_api_key.sh;
+        fi
+
        
         if command -v tmux &> /dev/null; then
           tmux new -A -s djnighs

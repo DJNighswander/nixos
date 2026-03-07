@@ -1,0 +1,15 @@
+return {
+  "folke/snacks.nvim",
+  priority = 1000,
+  lazy = false,
+  opts = {
+    -- Disable the components causing the "on_choice" error with Avante
+    picker = { enabled = false },
+    input = { enabled = false },
+    select = { enabled = false },
+    -- Keep the cool stuff that doesn't crash in Proot
+    notifier = { enabled = true },
+    dashboard = { enabled = true },
+    words = { enabled = true },
+  },
+}

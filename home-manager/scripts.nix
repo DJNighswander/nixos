@@ -12,6 +12,10 @@
       executable = true;
       source = ./scripts/toggle_onscreen_keyboard.sh;
     };
+    "/home/djnighs/.scripts/set_openrouter_api_key.sh" = {
+      executable = true;
+      source = ./scripts/set_openrouter_api_key.sh;
+    };
     "/home/djnighs/.scripts/start_btop_background.sh" = {
       executable = true;
       text = ''
@@ -38,7 +42,7 @@ fi
       text = ''
 #!/usr/bin/env bash
 
-/home/djnighs/.scripts/start_once_wrapper.sh alacritty -T alacritty
+/home/djnighs/.scripts/start_once_wrapper.sh alacritty -T alacritty -e tmux
       '';
     };
     "/home/djnighs/.scripts/start_nnn.sh" = {

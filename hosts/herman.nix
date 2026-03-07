@@ -108,8 +108,11 @@ in
       caffeine-ng
       #calibre
       cataclysm-dda-git
+      cargo
       ckb-next
       cliphist
+      cmake
+      code-cursor
       conky
       cryptsetup
       curl
@@ -123,17 +126,24 @@ in
       gcc
       gemini-cli
       git
+      gnumake
       gnupg
       hypridle
       hyprlock
       hyprpaper
+      imagemagick
       jmtpfs
+      jsonc
       jq
       kitty
       lazygit
       libinput
       libusb1
+      lua
+      lua-language-server
+      luajit
       maliit-keyboard
+      marksman
       nautilus
       neovim
       nnn
@@ -149,6 +159,8 @@ in
       python3
       qutebrowser
       ripgrep
+      rust-analyzer
+      rustc
       starsector
       swayidle
       system76-keyboard-configurator
