@@ -14,7 +14,10 @@
     };
     "/home/djnighs/.scripts/set_openrouter_api_key.sh" = {
       executable = true;
-      source = ./scripts/set_openrouter_api_key.sh;
+      text = ''
+        #!/usr/bin/env bash
+        export OPENROUTER_API_KEY=$(cat /run/secrets/openrouter_key)
+      '';
     };
     "/home/djnighs/.scripts/start_btop_background.sh" = {
       executable = true;

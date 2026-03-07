@@ -17,6 +17,10 @@
       url= "github:oxalica/rust-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     vieb-nix = {
       url = "github:tejing1/vieb-nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -114,7 +118,7 @@
           modules = [
             inputs.nixos-hardware.nixosModules.starlabs-starlite-i5
             ./hosts/herman.nix
-            #./modules
+            inputs.sops-nix.nixosModules.sops
   
             {nixpkgs.hostPlatform = "x86_64-linux";}
             {nixpkgs.config.allowUnfree = true;}

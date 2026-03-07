@@ -41,6 +41,11 @@ in
     ];
   };
 
+  sops.defaultSopsFile = ../secrets/secrets.yaml; # Path to your encrypted file
+  sops.secrets.openrouter_key = {
+    owner = "djnighs";
+  };
+
   environment = {
     variables.EDITOR = "nvim";
     shellAliases = { 
@@ -93,7 +98,7 @@ in
       KWIN_IM_SHOW_ALWAYS = "1";
       SSH_AUTH_SOCK = "/run/user/1000/gnupg/S.gpg-agent.ssh";
     };
-    
+
     etc."machine-id".source = "/nix/persist/etc/machine-id";
     
     # Combined package lists from both configs, deduplicated and sorted
@@ -133,7 +138,6 @@ in
       hyprpaper
       imagemagick
       jmtpfs
-      jsonc
       jq
       kitty
       lazygit
@@ -161,6 +165,8 @@ in
       ripgrep
       rust-analyzer
       rustc
+      sops
+      ssh-to-pgp
       starsector
       swayidle
       system76-keyboard-configurator

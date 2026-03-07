@@ -1,0 +1,8 @@
+# .sops.yaml
+keys:
+  - &herman_key age136n6txtrxzlfh5gfw75cyp857ew6vm29xm93y3c7gpzedfehu4ase33awh
+creation_rules:
+  - path_regex: secrets/[^/]+\.yaml$
+    key_groups:
+      - age:
+        - *herman_key
