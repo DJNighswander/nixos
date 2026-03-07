@@ -27,9 +27,9 @@
             # The '-p 30' gives the bottom shell 30% of the space; adjust as needed.
             
             # 2. Setup ".RUST_DEV" window
-            new-window -n '.RUST_DEV' -c ~/development/entityquest
+            new-window -n '.RUST_DEV' -c ~/documents/development/entityquest
             send-keys 'nvim ./' C-m
-            split-window -v -p 30 -c ~/development/entityquest
+            split-window -v -p 30 -c ~/documents/development/entityquest
             
             # 3. Setup ".USER_CON" window
             new-window -n '.USER_CON'

@@ -85,8 +85,8 @@
           . .bash_aliases
         fi
 
-        if [ -f ~/.scripts/set_openrouter_api_key.sh ]; then
-          ./.scripts/set_openrouter_api_key.sh;
+        if [ -f /run/secrets/openrouter_key ]; then
+          export OPENROUTER_API_KEY=$(cat /run/secrets/openrouter_key);
         fi
 
        
