@@ -111,9 +111,9 @@ in
       brightnessctl
       btop
       caffeine-ng
-      #calibre
-      cataclysm-dda-git
+      calibre
       cargo
+      cataclysm-dda-git
       ckb-next
       cliphist
       cmake
@@ -121,7 +121,6 @@ in
       conky
       cryptsetup
       curl
-      #cursor-cli
       dconf
       distcc
       fd

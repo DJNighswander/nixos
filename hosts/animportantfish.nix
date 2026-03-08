@@ -92,6 +92,7 @@ in
     
     systemPackages = with pkgs; [
       acpid
+      aider-chat
       alacritty
       android-tools
       bitwarden-desktop
@@ -99,32 +100,46 @@ in
       btop
       caffeine-ng
       calibre
+      cargo
       cataclysm-dda-git
+      ckb-next
       cliphist
+      cmake
+      code-cursor
+      conky
       cryptsetup
       curl
       dconf
       distcc
       fd
+      firefox
       fzf
       gamescope
       gcc
       gemini-cli
-      jmtpfs
       git
+      gnumake
       gnupg
       hypridle
       hyprlock
       hyprpaper
+      imagemagick
+      jmtpfs
       jq
+      kitty
+      lazygit
       libinput
       libusb1
-      lazygit
-      kitty
+      lua
+      lua-language-server
+      luajit
       maliit-keyboard
+      marksman
       nautilus
+      neovim
       nnn
       nodejs
+      nwg-wrapper
       obsidian
       opensc
       paperkey
@@ -135,6 +150,10 @@ in
       python3
       qutebrowser
       ripgrep
+      rust-analyzer
+      rustc
+      sops
+      ssh-to-pgp
       starsector
       swayidle
       system76-keyboard-configurator
@@ -144,17 +163,17 @@ in
       vieb-pkg
       vlc
       waylock
-      wvkbd
       wget
       wl-clipboard
       wlr-randr
+      wvkbd
       xdg-desktop-portal-hyprland
       xwayland
       ytmdesktop
       yubico-pam
-      yubioath-flutter
       yubikey-manager
       yubikey-personalization
+      yubioath-flutter
     ];
   };
 
@@ -195,19 +214,17 @@ in
   };
 
   security.pam = {
-    services = {
-      swaylock = { };
-      login.u2fAuth = true;
-      sudo.u2fAuth = true;
-    };
+    services.swaylock = { };
+    services.login.u2fAuth = lib.mkForce false;
+    services.sudo.u2fAuth = lib.mkForce false;
     yubico = {
       enable = true;
-      debug = true;
+      debug = false;
       mode = "challenge-response";
-      id = [ "15969482" ];
+      id = [ "15969482" "14596532" "1459655" ];
+      control = "required";
     };
   };
-
   documentation.dev.enable = true;
 
   services = {

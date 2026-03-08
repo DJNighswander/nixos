@@ -47,62 +47,89 @@ in
 
     systemPackages = with pkgs; [
       acpid
+      aider-chat
       alacritty
       android-tools
       bitwarden-desktop
       brightnessctl
       btop
       caffeine-ng
-      calibre
+      #calibre
       cataclysm-dda-git
+      cargo
+      ckb-next
       cliphist
+      cmake
+      code-cursor
+      conky
       cryptsetup
       curl
+      #cursor-cli
       dconf
       distcc
       fd
+      firefox
       fzf
+      gamescope
       gcc
-      jmtpfs
+      gemini-cli
       git
+      gnumake
       gnupg
       hypridle
       hyprlock
       hyprpaper
+      imagemagick
+      jmtpfs
       jq
-      libinput
-      lazygit
       kitty
+      lazygit
+      libinput
+      libusb1
+      lua
+      lua-language-server
+      luajit
       maliit-keyboard
+      marksman
+      nautilus
+      neovim
       nnn
       nodejs
+      nwg-wrapper
       obsidian
       opensc
       paperkey
       pavucontrol
       pinentry-curses
+      pinentry-gnome3
       playerctl
       python3
       qutebrowser
       ripgrep
+      rust-analyzer
+      rustc
+      sops
+      ssh-to-pgp
       starsector
       swayidle
+      system76-keyboard-configurator
       tmux
       tmuxinator
       unzip
       vieb-pkg
       vlc
       waylock
-      wvkbd
       wget
       wl-clipboard
       wlr-randr
+      wvkbd
       xdg-desktop-portal-hyprland
       xwayland
       ytmdesktop
-      yubioath-flutter
+      yubico-pam
       yubikey-manager
       yubikey-personalization
+      yubioath-flutter
     ];
   };
 
