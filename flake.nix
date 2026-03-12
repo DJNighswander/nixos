@@ -4,7 +4,10 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
-    lazyvim-nix.url = "github:pfassina/lazyvim-nix";
+    lazyvim-nix = {
+      url = "github:pfassina/lazyvim-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -25,12 +28,23 @@
       url = "github:tejing1/vieb-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    dwl-src = {
+      url="./sources/dwl";
+      flake = false;
+    };
   };
 
   outputs = { self, nixpkgs, home-manager, lazyvim-nix, rust-overlay, neovim-nightly-overlay, vieb-nix, ... }@inputs:
     let
       overlays = [
         inputs.neovim-nightly-overlay.overlays.default
+        (final: prev: {
+          dwl-custom = prev.dwl.overrideAttrs (oldAttrs: {
+            src = inputs.dwl-src;
+            # Add extra deps here 
+            # buildInputs = oldAttrs.buildInputs ++ [ prev.somePackage ];
+          });
+        })
       ];
     in
     {

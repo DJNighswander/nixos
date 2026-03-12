@@ -123,8 +123,10 @@ in
       curl
       dconf
       distcc
+      dwl
       fd
       firefox
+      foot
       fzf
       gamescope
       gcc
@@ -175,6 +177,7 @@ in
       vieb-pkg
       vlc
       waylock
+      weechat
       wget
       wl-clipboard
       wlr-randr
@@ -259,6 +262,18 @@ in
     printing.enable = true;
     gvfs.enable = true;
     udisks2.enable = true;
+
+    displayManager.sessionPackages = [
+      ((pkgs.writeTextDir "share/wayland-sessions/dwl.desktop" ''
+        [Desktop Entry]
+        Name=dwl
+        Comment=dwm for Wayland
+        Exec=dwl
+        Type=Application
+      '').overrideAttrs (_: {
+        passthru.providedSessions = [ "dwl" ];
+      }))
+    ];
     
     xserver = {
       enable = true;

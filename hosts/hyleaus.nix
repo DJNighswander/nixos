@@ -119,6 +119,7 @@ in
       vieb-pkg
       vlc
       waylock
+      weechat
       wget
       wl-clipboard
       wlr-randr

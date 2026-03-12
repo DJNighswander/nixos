@@ -1,16 +1,16 @@
 return {
   "yetone/avante.nvim",
   opts = {
-    provider = "openrouter-claude",
-    auto_suggestions_provider = "openrouter-gemini",
+    provider = "--openrouter-claude",
+    auto_suggestions_provider = "--openrouter-gemini-3-flash",
     providers = {
-      ["openrouter-claude"] = {
+      ["--openrouter-claude"] = {
         __inherited_from = "openai",
         endpoint = "https://openrouter.ai/api/v1",
         api_key_name = "OPENROUTER_API_KEY",
         model = "anthropic/claude-sonnet-4.6",
       },
-      ["openrouter-gemini"] = {
+      ["--openrouter-gemini-3-flash"] = {
         __inherited_from = "openai",
         endpoint = "https://openrouter.ai/api/v1",
         api_key_name = "OPENROUTER_API_KEY",
